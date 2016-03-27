@@ -54,13 +54,13 @@ public class PlayerScript : MonoBehaviour
     internal void UmbrellaAction(bool use)
     {
         SetAction(use ? Action.Umbrella : Action.Running);
-    }
+        }
 
     private void SetAction(Action action)
     {
         if (currentAction == Action.Jumping && action != Action.Running)
             return;
-        currentAction = action;
+       
         var anim = GetComponent<Animator>();
         
         switch (action) {
@@ -71,8 +71,17 @@ public class PlayerScript : MonoBehaviour
                 endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
                 break;
             case Action.Sliding:
-                anim.runtimeAnimatorController = Resources.Load("Player/sliding_0") as RuntimeAnimatorController;
-                endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
+                if(currentAction == Action.Sliding)
+                {
+                    var state = anim.GetCurrentAnimatorStateInfo(0);
+                    anim.Play(state.fullPathHash, 0, .2f);
+                    endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length - .2f;
+                } else
+                {
+                    anim.runtimeAnimatorController = Resources.Load("Player/sliding_0") as RuntimeAnimatorController;
+                    endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
+
+                }
                 break;
             case Action.Umbrella:
                 anim.runtimeAnimatorController = Resources.Load("Player/umbrella_0") as RuntimeAnimatorController;
@@ -81,6 +90,8 @@ public class PlayerScript : MonoBehaviour
                 anim.runtimeAnimatorController = Resources.Load("Player/running_0") as RuntimeAnimatorController;
                 break;
         }
+
+        currentAction = action;
     }
 
     void OnCollisionEnter2D(Collision2D col)
