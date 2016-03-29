@@ -11,6 +11,10 @@ public class SlidingObstacleScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        if (!name.Contains("Clone")) {
+            Destroy(gameObject);
+            return;
+        }
         var y = transform.position.y;
         var x = lastAdded == null ? 12.80f : lastAdded.transform.position.x + GetComponent<SpriteRenderer>().bounds.size.x + Random.value * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE;
         transform.position = new Vector3(x, y);

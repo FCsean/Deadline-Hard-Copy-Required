@@ -10,12 +10,16 @@ public class RandomizerScript : MonoBehaviour {
 
     public Scroll road;
     public GameObject sliding_construction_prefab;
-    public GameObject sliding_highwaysign;
+    public GameObject sliding_highwaysign_prefab;
+    public GameObject jumping_manhole_prefab;
+    public GameObject jumping_puddle_prefab;
 
     // Use this for initialization
     void Start () {
         prefabs.Add(sliding_construction_prefab);
-        prefabs.Add(sliding_highwaysign);
+        prefabs.Add(sliding_highwaysign_prefab);
+        prefabs.Add(jumping_manhole_prefab);
+        prefabs.Add(jumping_puddle_prefab);
 	}
 	
 	// Update is called once per frame
@@ -23,13 +27,13 @@ public class RandomizerScript : MonoBehaviour {
         if (obstacles.Count < 5)
         {
             var randomNum = (int) Random.Range(0, prefabs.Count);
-            GameObject sliding_construction = Instantiate((GameObject) prefabs[randomNum]);
-            var script = sliding_construction.GetComponent<SlidingObstacleScript>();
+            GameObject obstacle = Instantiate((GameObject) prefabs[randomNum]);
+            var script = obstacle.GetComponent<SlidingObstacleScript>();
             script.road = road;
             script.lastAdded = lastAdded;
 
-            obstacles.Enqueue(sliding_construction);
-            lastAdded = sliding_construction;
+            obstacles.Enqueue(obstacle);
+            lastAdded = obstacle;
         }
         if(obstacles.Count != 0)
         {

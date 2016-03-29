@@ -66,7 +66,7 @@ public class PlayerScript : MonoBehaviour
 
     private void SetAction(Action action)
     {
-        if (currentAction == Action.Jumping && action != Action.Running)
+        if (currentAction == Action.Jumping && action != Action.Running && action != Action.Hurt)
             return;
 
         if (currentAction == Action.Hurt && action != Action.Running)
@@ -79,7 +79,7 @@ public class PlayerScript : MonoBehaviour
             case Action.Jumping:
                 anim.runtimeAnimatorController = Resources.Load("Player/jumping_0") as RuntimeAnimatorController;
                 var rb = GetComponent<Rigidbody2D>();
-                rb.AddForce(new Vector2(0, 600));
+                rb.AddForce(new Vector2(0, 1000));
                 endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
                 break;
             case Action.Sliding:
@@ -113,7 +113,7 @@ public class PlayerScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.name == "Road")
+        if (col.gameObject.name == "Road" && currentAction != Action.Hurt)
         {
             SetAction(Action.Running);  
         }
@@ -128,20 +128,28 @@ public class PlayerScript : MonoBehaviour
         {
             return;
         }
-        var anim = GetComponent<Animator>();
-        switch (currentAction)
+        
+        if (col.gameObject.name.Contains("sliding") && col.gameObject.name.Contains("jumping"))
         {
-            case Action.Running:
-                if (col.gameObject.name.Contains("sliding"))
-                {
-                    anim.runtimeAnimatorController = Resources.Load("Player/hurt2_0") as RuntimeAnimatorController;
-                    endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
-                    SetAction(Action.Hurt);
-                }
-                break;
-            default:
-                break;
+            if(currentAction != Action.Sliding) {
+                Hurt("hurt2_0");
+            }
+        } else if (col.gameObject.name.Contains("sliding") && currentAction != Action.Sliding)
+        {
+            Hurt("hurt2_0");   
+        } else if (col.gameObject.name.Contains("jumping"))
+        {
+            Hurt("hurt2_0");
         }
+         
+    }
+
+    private void Hurt(String animator)
+    {
+        var anim = GetComponent<Animator>();
+        anim.runtimeAnimatorController = Resources.Load("Player/"+animator) as RuntimeAnimatorController;
+        endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
+        SetAction(Action.Hurt);
     }
 
     private int[] colors = { 0, 255/2, 255};
