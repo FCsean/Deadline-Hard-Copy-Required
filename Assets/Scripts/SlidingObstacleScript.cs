@@ -15,6 +15,10 @@ public class SlidingObstacleScript : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
+        if (name.Contains("highway"))
+        {
+            GetComponent<Animator>().speed = 1 / 6f;
+        }
         var y = transform.position.y;
         var x = lastAdded == null ? 12.80f : lastAdded.transform.position.x + GetComponent<SpriteRenderer>().bounds.size.x + Random.value * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE;
         transform.position = new Vector3(x, y);

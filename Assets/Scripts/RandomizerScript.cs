@@ -13,6 +13,8 @@ public class RandomizerScript : MonoBehaviour {
     public GameObject sliding_highwaysign_prefab;
     public GameObject jumping_manhole_prefab;
     public GameObject jumping_puddle_prefab;
+    public GameObject umbrella_rain_prefab;
+    public GameObject sliding_jeep_prefab;
 
     // Use this for initialization
     void Start () {
@@ -20,10 +22,12 @@ public class RandomizerScript : MonoBehaviour {
         prefabs.Add(sliding_highwaysign_prefab);
         prefabs.Add(jumping_manhole_prefab);
         prefabs.Add(jumping_puddle_prefab);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        prefabs.Add(umbrella_rain_prefab);
+        prefabs.Add(sliding_jeep_prefab);
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (obstacles.Count < 5)
         {
             var randomNum = (int) Random.Range(0, prefabs.Count);

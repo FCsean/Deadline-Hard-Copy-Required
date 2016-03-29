@@ -61,8 +61,18 @@ public class PlayerScript : MonoBehaviour
 
     internal void UmbrellaAction(bool use)
     {
-        SetAction(use ? Action.Umbrella : Action.Running);
+        if (currentAction == Action.Hurt)
+            return;
+
+        if (use && (currentAction == Action.Running || currentAction == Action.Sliding))
+        {
+            SetAction(Action.Umbrella);
+        }else if(currentAction == Action.Umbrella)
+        {
+            SetAction(Action.Running);
         }
+        
+    }
 
     private void SetAction(Action action)
     {
@@ -119,7 +129,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
         //obstacle collide
         //Debug.Log(col.gameObject.name);
@@ -140,6 +150,9 @@ public class PlayerScript : MonoBehaviour
         } else if (col.gameObject.name.Contains("jumping"))
         {
             Hurt("hurt2_0");
+        } else if(col.gameObject.name.Contains("umbrella") && currentAction != Action.Umbrella)
+        {
+            Hurt("hurt2_0");
         }
          
     }
@@ -152,7 +165,7 @@ public class PlayerScript : MonoBehaviour
         SetAction(Action.Hurt);
     }
 
-    private int[] colors = { 0, 255/2, 255};
+    private float[] colors = { 0.1f, .5f, 1f};
     IEnumerator Flash(float intervalTime)
     {
         int index = 0;
