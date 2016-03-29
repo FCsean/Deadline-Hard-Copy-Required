@@ -6,8 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
 
     public Scroll road;
-
-    private float lastSpeed;
+    public HighwayRandomizer randomizer;
     
     enum Action {
         Running,
@@ -50,7 +49,8 @@ public class PlayerScript : MonoBehaviour
             switch (currentAction)
         {
             case Action.Hurt:
-                road.speed = lastSpeed;
+                road.ResumeSpeed();
+                randomizer.ResumeSpeed();
                 goto case Action.Jumping;
             case Action.Jumping:
             case Action.Sliding:
@@ -112,8 +112,8 @@ public class PlayerScript : MonoBehaviour
                 anim.speed = 2.5f;
                 break;
             case Action.Hurt:
-                lastSpeed = road.speed;
-                road.speed = 0;
+                road.StopSpeed();
+                randomizer.StopSpeed();
                 invincibleTime = Time.time + 6f;
                 StartCoroutine(Flash(0.10f));
                 break;
@@ -123,7 +123,7 @@ public class PlayerScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.name == "Road" && currentAction != Action.Hurt)
+        if (col.gameObject.name.ToLower().Contains("road") && currentAction != Action.Hurt)
         {
             SetAction(Action.Running);  
         }

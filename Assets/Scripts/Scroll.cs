@@ -4,16 +4,26 @@ using System.Collections;
 public class Scroll : MonoBehaviour {
 
     public float speed;
+    public float lastSpeed;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        Vector2 offset = new Vector2(Time.time * speed, 0);
+    // Use this for initialization
+    void Start()
+    {
+    }
 
-        GetComponent<Renderer>().material.mainTextureOffset = offset;
-	}
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
+    public void StopSpeed()
+    {
+        lastSpeed = speed;
+        speed = 0;
+    }
+
+    public void ResumeSpeed()
+    {
+        speed = lastSpeed;
+    }
 }
