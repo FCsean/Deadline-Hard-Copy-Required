@@ -14,15 +14,18 @@ public class PlayerScript : MonoBehaviour
         Sliding,
         Umbrella,
         Hurt,
+        Lose,
     };
 
     private float endTime;
     private float invincibleTime;
     private Action currentAction;
-    
+
+    int life;
     // Use this for initialization
     void Start()
     {
+        life = 3;
         SetAction(Action.Running);
     }
 
@@ -46,7 +49,8 @@ public class PlayerScript : MonoBehaviour
     {
         if (Time.time < endTime)
             return;
-            switch (currentAction)
+
+        switch (currentAction)
         {
             case Action.Hurt:
                 road.ResumeSpeed();
@@ -76,6 +80,9 @@ public class PlayerScript : MonoBehaviour
 
     private void SetAction(Action action)
     {
+        if (currentAction == Action.Lose)
+            return;
+        
         if (currentAction == Action.Jumping && action != Action.Running && action != Action.Hurt)
             return;
 
@@ -162,7 +169,17 @@ public class PlayerScript : MonoBehaviour
         var anim = GetComponent<Animator>();
         anim.runtimeAnimatorController = Resources.Load("Player/"+animator) as RuntimeAnimatorController;
         endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
-        SetAction(Action.Hurt);
+        life--;
+        if (life > 0)
+        {
+            SetAction(Action.Hurt);
+        } else
+        {
+            road.StopSpeed();
+            randomizer.StopSpeed();
+            currentAction = Action.Lose;
+            // LOSE
+        }
     }
 
     private float[] colors = { 0.1f, .5f, 1f};
