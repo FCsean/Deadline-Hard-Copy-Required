@@ -10,10 +10,12 @@ public class SwipeScript : MonoBehaviour
     private Vector2 fingerStartPos = Vector2.zero;
 
     private bool isSwipe = false;
-    private float minSwipeDist = 50.0f;
-    private float maxSwipeTime = 0.5f;
+    private float minSwipeDist = 10.0f;
+    private float maxSwipeTime = 0.15f;
 
     public PlayerScript player;
+
+    private bool hold = false;
 
     // Update is called once per frame
     void Update()
@@ -40,6 +42,13 @@ public class SwipeScript : MonoBehaviour
             {
                 switch (touch.phase)
                 {
+                    case TouchPhase.Stationary:
+                        float gestureTime = Time.time - fingerStartTime;
+                        if (gestureTime > maxSwipeTime && !hold) { 
+                            player.UmbrellaAction(true);
+                            hold = true;
+                        }
+                        break;
                     case TouchPhase.Began:
                         /* this is a new touch */
                         isSwipe = true;
@@ -53,8 +62,9 @@ public class SwipeScript : MonoBehaviour
                         break;
 
                     case TouchPhase.Ended:
-
-                        float gestureTime = Time.time - fingerStartTime;
+                        hold = false;
+                        player.UmbrellaAction(false);
+                        gestureTime = Time.time - fingerStartTime;
                         float gestureDist = (touch.position - fingerStartPos).magnitude;
 
                         if (isSwipe && gestureTime < maxSwipeTime && gestureDist > minSwipeDist)
