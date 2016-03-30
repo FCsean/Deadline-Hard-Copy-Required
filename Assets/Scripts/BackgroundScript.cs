@@ -4,6 +4,8 @@ using System.Collections;
 public class BackgroundScript : MonoBehaviour {
 
 	public float speed;
+	public float lastSpeed;
+
 	public GameObject otherStreet;
 
 	// Use this for initialization
@@ -38,5 +40,16 @@ public class BackgroundScript : MonoBehaviour {
 			posi.x = second.transform.position.x + second.GetComponent<SpriteRenderer>().bounds.size.x;
 			first.transform.position = posi;
 		}
+	}
+
+	public void StopSpeed()
+	{
+		lastSpeed = speed;
+		speed = 0;
+	}
+
+	public void ResumeSpeed()
+	{
+		speed = lastSpeed;
 	}
 }

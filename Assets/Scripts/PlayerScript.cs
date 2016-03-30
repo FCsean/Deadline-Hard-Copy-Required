@@ -55,6 +55,7 @@ public class PlayerScript : MonoBehaviour
             case Action.Hurt:
                 road.ResumeSpeed();
                 randomizer.ResumeSpeed();
+                GetComponent<SpriteRenderer>().sortingOrder = 0;
                 goto case Action.Jumping;
             case Action.Jumping:
             case Action.Sliding:
@@ -111,8 +112,9 @@ public class PlayerScript : MonoBehaviour
                     endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
                 }
                 break;
-            case Action.Umbrella:
-                anim.runtimeAnimatorController = Resources.Load("Player/umbrella_0") as RuntimeAnimatorController;
+			case Action.Umbrella:
+				anim.runtimeAnimatorController = Resources.Load ("Player/umbrella_0") as RuntimeAnimatorController;
+				anim.speed = 2.5f;
                 break;
             case Action.Running:
                 anim.runtimeAnimatorController = Resources.Load("Player/running_0") as RuntimeAnimatorController;
@@ -156,7 +158,15 @@ public class PlayerScript : MonoBehaviour
             Hurt("hurt2_0");   
         } else if (col.gameObject.name.Contains("jumping"))
         {
-            Hurt("hurt2_0");
+			if (col.gameObject.name.Contains ("manhole")) 
+			{
+				life -= 3;
+				transform.position = col.gameObject.transform.position;
+				Hurt ("fallManhole_0");
+			} else 
+			{
+				Hurt ("hurt2_0");
+			}
         } else if(col.gameObject.name.Contains("umbrella") && currentAction != Action.Umbrella)
         {
             Hurt("hurt2_0");
@@ -167,9 +177,11 @@ public class PlayerScript : MonoBehaviour
     private void Hurt(String animator)
     {
         var anim = GetComponent<Animator>();
+		anim.speed = 1f;
         anim.runtimeAnimatorController = Resources.Load("Player/"+animator) as RuntimeAnimatorController;
         endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
         life--;
+        GetComponent<SpriteRenderer>().sortingOrder = 99;
         if (life > 0)
         {
             SetAction(Action.Hurt);
@@ -178,6 +190,8 @@ public class PlayerScript : MonoBehaviour
             road.StopSpeed();
             randomizer.StopSpeed();
             currentAction = Action.Lose;
+			if(!animator.ToLower().Contains("manhole"))
+				anim.runtimeAnimatorController = Resources.Load("Player/wimper_0") as RuntimeAnimatorController;
             // LOSE
         }
     }

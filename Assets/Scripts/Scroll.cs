@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Scroll : MonoBehaviour {
 
@@ -9,9 +10,16 @@ public class Scroll : MonoBehaviour {
 
     private int over = 15;
 
+	public BackgroundScript mountain;
+	public BackgroundScript trees;
+
+	private List<BackgroundScript> backgrounds = new List<BackgroundScript>();
+
     // Use this for initialization
     void Start()
     {
+		backgrounds.Add (mountain);
+		backgrounds.Add (trees);
     }
 
     // Update is called once per frame
@@ -27,10 +35,16 @@ public class Scroll : MonoBehaviour {
     {
         lastSpeed = speed;
         speed = 0;
+		foreach(var background in backgrounds){
+			background.StopSpeed ();
+		}
     }
 
     public void ResumeSpeed()
     {
         speed = lastSpeed;
+		foreach(var background in backgrounds){
+			background.StopSpeed ();
+		}
     }
 }

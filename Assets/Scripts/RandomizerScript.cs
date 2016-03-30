@@ -15,7 +15,7 @@ public class RandomizerScript : MonoBehaviour {
     public GameObject jumping_puddle_prefab;
     public GameObject umbrella_rain_prefab;
     public GameObject sliding_jeep_prefab;
-
+    public GameObject umbrella_hydrant_prefab;
     // Use this for initialization
     void Start () {
         prefabs.Add(sliding_construction_prefab);
@@ -24,6 +24,7 @@ public class RandomizerScript : MonoBehaviour {
         prefabs.Add(jumping_puddle_prefab);
         prefabs.Add(umbrella_rain_prefab);
         prefabs.Add(sliding_jeep_prefab);
+        prefabs.Add(umbrella_hydrant_prefab);
     }
 
     // Update is called once per frame
