@@ -15,7 +15,7 @@ public class PlayerScript : MonoBehaviour
 
     private List<GameObject> lives = new List<GameObject>();
 
-    enum Action {
+   public enum Action {
         Running,
         Jumping,
         Sliding,
@@ -27,6 +27,11 @@ public class PlayerScript : MonoBehaviour
     private float endTime;
     private float invincibleTime;
     private Action currentAction;
+
+    public Action CurrentAction {
+        get { return currentAction; }
+    }
+
 
     int life;
     // Use this for initialization

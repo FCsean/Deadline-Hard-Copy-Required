@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
@@ -34,6 +35,10 @@ public class SwipeScript : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Space))
         {
             player.UmbrellaAction(false);
+            if (player.CurrentAction == PlayerScript.Action.Lose)
+            {
+                SceneManager.LoadScene("GameScene");
+            }
         }
 
         if (Input.touchCount > 0)
@@ -62,6 +67,10 @@ public class SwipeScript : MonoBehaviour
                         break;
 
                     case TouchPhase.Ended:
+                        if (player.CurrentAction == PlayerScript.Action.Lose)
+                        {
+                            SceneManager.LoadScene("GameScene");
+                        }
                         hold = false;
                         player.UmbrellaAction(false);
                         gestureTime = Time.time - fingerStartTime;
