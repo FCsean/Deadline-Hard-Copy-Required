@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class PlayerScript : MonoBehaviour
@@ -7,7 +8,13 @@ public class PlayerScript : MonoBehaviour
 
     public Scroll road;
     public HighwayRandomizer randomizer;
-    
+    public GameObject life1;
+    public GameObject life2;
+    public GameObject life3;
+    public GameObject gameover;
+
+    private List<GameObject> lives = new List<GameObject>();
+
     enum Action {
         Running,
         Jumping,
@@ -26,7 +33,12 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         life = 3;
+        lives.Add(life1);
+        lives.Add(life2);
+        lives.Add(life3);
+
         SetAction(Action.Running);
+        gameover.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -182,6 +194,14 @@ public class PlayerScript : MonoBehaviour
         endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
         life--;
         GetComponent<SpriteRenderer>().sortingOrder = 99;
+
+        for(int i = lives.Count - 1; i >= 0 && animator.ToLower().Contains("manhole"); i--)
+        {
+            Destroy(lives[i]);
+        }
+        if(lives.Count != 0 && life >= 0) { 
+            Destroy(lives[life]);
+        }
         if (life > 0)
         {
             SetAction(Action.Hurt);
@@ -190,7 +210,8 @@ public class PlayerScript : MonoBehaviour
             road.StopSpeed();
             randomizer.StopSpeed();
             currentAction = Action.Lose;
-			if(!animator.ToLower().Contains("manhole"))
+            gameover.GetComponent<SpriteRenderer>().enabled = true;
+            if (!animator.ToLower().Contains("manhole"))
 				anim.runtimeAnimatorController = Resources.Load("Player/wimper_0") as RuntimeAnimatorController;
             // LOSE
         }
