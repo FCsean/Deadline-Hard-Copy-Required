@@ -16,6 +16,10 @@ public class RandomizerScript : MonoBehaviour {
     public GameObject umbrella_rain_prefab;
     public GameObject sliding_jeep_prefab;
     public GameObject umbrella_hydrant_prefab;
+
+    public GameObject highway_front_prefab;
+    public GameObject construction_front_prefab;
+
     // Use this for initialization
     void Start () {
         prefabs.Add(sliding_construction_prefab);
@@ -39,6 +43,17 @@ public class RandomizerScript : MonoBehaviour {
 
             obstacles.Enqueue(obstacle);
             lastAdded = obstacle;
+            if (obstacle.name.Contains(sliding_construction_prefab.name))
+            {
+                var front = Instantiate(construction_front_prefab);
+                front.GetComponent<FrontObstacleScript>().obstacle = obstacle;
+                front.GetComponent<FrontObstacleScript>().road = road;
+            } else if (obstacle.name.Contains(sliding_highwaysign_prefab.name))
+            {
+                var front = Instantiate(highway_front_prefab);
+                front.GetComponent<FrontObstacleScript>().obstacle = obstacle;
+                front.GetComponent<FrontObstacleScript>().road = road;
+            }
         }
         if(obstacles.Count != 0)
         {

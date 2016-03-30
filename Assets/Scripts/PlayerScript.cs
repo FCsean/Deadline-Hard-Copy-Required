@@ -210,6 +210,7 @@ public class PlayerScript : MonoBehaviour
             road.StopSpeed();
             randomizer.StopSpeed();
             currentAction = Action.Lose;
+            gameover.transform.position = Vector3.zero;
             gameover.GetComponent<SpriteRenderer>().enabled = true;
             if (!animator.ToLower().Contains("manhole"))
 				anim.runtimeAnimatorController = Resources.Load("Player/wimper_0") as RuntimeAnimatorController;
