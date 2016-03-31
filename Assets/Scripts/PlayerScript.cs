@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour
 
     private List<GameObject> lives = new List<GameObject>();
 
+	private AudioSource audioSource;
+
    public enum Action {
         Running,
         Jumping,
@@ -27,6 +29,13 @@ public class PlayerScript : MonoBehaviour
     private float endTime;
     private float invincibleTime;
     private Action currentAction;
+
+	public AudioClip running;
+	public AudioClip umbrella;
+	public AudioClip hurt;
+	public AudioClip falling;
+	public AudioClip sliding;
+	public AudioClip jumping;
 
     public Action CurrentAction {
         get { return currentAction; }
@@ -47,8 +56,12 @@ public class PlayerScript : MonoBehaviour
         Resources.Load("Player/jumping_0");
         Resources.Load("Player/umbrella_0");
         Resources.Load("Player/sliding_0");
-    }
+	}
 
+	void Awake()
+	{
+		audioSource = this.GetComponent<AudioSource> ();
+	}
     // Update is called once per frame
     void Update()
     {
@@ -114,14 +127,18 @@ public class PlayerScript : MonoBehaviour
         anim.speed = 1f;
 
         switch (action) {
-            case Action.Jumping:
+		case Action.Jumping:
+				audioSource.Pause ();
+				audioSource.PlayOneShot (jumping);
                 anim.runtimeAnimatorController = Resources.Load("Player/jumping_0") as RuntimeAnimatorController;
                 var rb = GetComponent<Rigidbody2D>();
                 rb.AddForce(new Vector2(0, 1000));
                 endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
                 break;
-            case Action.Sliding:
-                if(currentAction == Action.Sliding)
+		case Action.Sliding:
+				audioSource.clip = sliding;
+				audioSource.Play ();
+	            if(currentAction == Action.Sliding)
                 {
                     var state = anim.GetCurrentAnimatorStateInfo(0);
                     anim.Play(state.fullPathHash, 0, .3f);
@@ -133,10 +150,13 @@ public class PlayerScript : MonoBehaviour
                 }
                 break;
 			case Action.Umbrella:
+				audioSource.PlayOneShot (umbrella);
 				anim.runtimeAnimatorController = Resources.Load ("Player/umbrella_0") as RuntimeAnimatorController;
 				anim.speed = 2.5f;
                 break;
-            case Action.Running:
+			case Action.Running:
+				audioSource.clip = running;
+				audioSource.Play ();
                 anim.runtimeAnimatorController = Resources.Load("Player/running_0") as RuntimeAnimatorController;
                 anim.speed = 2.5f;
                 break;
@@ -152,7 +172,7 @@ public class PlayerScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.name.ToLower().Contains("road") && currentAction != Action.Hurt)
+		if (col.gameObject.name.ToLower().Contains("road") && currentAction != Action.Hurt && currentAction != Action.Running)
         {
             SetAction(Action.Running);  
         }
@@ -196,6 +216,9 @@ public class PlayerScript : MonoBehaviour
 
     private void Hurt(String animator)
     {
+		if (currentAction == Action.Hurt || currentAction == Action.Lose)
+			return;
+		
         var anim = GetComponent<Animator>();
 		anim.speed = 1f;
         anim.runtimeAnimatorController = Resources.Load("Player/"+animator) as RuntimeAnimatorController;
@@ -210,11 +233,15 @@ public class PlayerScript : MonoBehaviour
         if(lives.Count != 0 && life >= 0) { 
             Destroy(lives[life]);
         }
+
+		audioSource.Pause ();
         if (life > 0)
         {
+			audioSource.PlayOneShot (hurt);
             SetAction(Action.Hurt);
         } else
         {
+			audioSource.PlayOneShot (falling);
             road.StopSpeed();
             randomizer.StopSpeed();
             currentAction = Action.Lose;

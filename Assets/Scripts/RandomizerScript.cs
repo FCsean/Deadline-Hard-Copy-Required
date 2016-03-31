@@ -9,6 +9,7 @@ public class RandomizerScript : MonoBehaviour {
     private ArrayList prefabs = new ArrayList();
 
     public Scroll road;
+
     public GameObject sliding_construction_prefab;
     public GameObject sliding_highwaysign_prefab;
     public GameObject jumping_manhole_prefab;

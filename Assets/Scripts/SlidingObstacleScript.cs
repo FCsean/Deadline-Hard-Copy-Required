@@ -29,4 +29,18 @@ public class SlidingObstacleScript : MonoBehaviour {
         var posi = transform.position;
         transform.position = new Vector2(posi.x - road.speed, posi.y);
 	}
+
+	void OnBecameVisible() {
+		var audio = GetComponent<AudioSource> ();
+		if (audio != null) {
+			audio.Play ();
+		}
+	}
+
+	void OnBecameInVisible() {
+		var audio = GetComponent<AudioSource> ();
+		if (audio != null) {
+			audio.Pause ();
+		}
+	}
 }
