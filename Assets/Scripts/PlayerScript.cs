@@ -44,6 +44,9 @@ public class PlayerScript : MonoBehaviour
 
         SetAction(Action.Running);
         gameover.GetComponent<SpriteRenderer>().enabled = false;
+        Resources.Load("Player/jumping_0");
+        Resources.Load("Player/umbrella_0");
+        Resources.Load("Player/sliding_0");
     }
 
     // Update is called once per frame

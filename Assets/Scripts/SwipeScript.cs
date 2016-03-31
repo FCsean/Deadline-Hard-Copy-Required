@@ -10,9 +10,11 @@ public class SwipeScript : MonoBehaviour
     private float fingerStartTime = 0.0f;
     private Vector2 fingerStartPos = Vector2.zero;
 
+    int lastCount = 0;
+
     private bool isSwipe = false;
-    private float minSwipeDist = 10.0f;
-    private float maxSwipeTime = 0.15f;
+    private float minSwipeDist = 1.0f;
+    private float maxSwipeTime = 0.5f;
 
     public PlayerScript player;
 
@@ -40,9 +42,23 @@ public class SwipeScript : MonoBehaviour
                 SceneManager.LoadScene("GameScene");
             }
         }
-
         if (Input.touchCount > 0)
         {
+            if (Input.touchCount >= 2)
+            {
+                if (!hold) { 
+                    player.UmbrellaAction(true);
+                    hold = true;
+                }
+            } else
+            {
+                if (lastCount >= 2 && hold)
+                {
+                    hold = false;
+                    player.UmbrellaAction(false);
+                }
+            }
+            lastCount = Input.touchCount;
             foreach (Touch touch in Input.touches)
             {
                 switch (touch.phase)
@@ -50,8 +66,7 @@ public class SwipeScript : MonoBehaviour
                     case TouchPhase.Stationary:
                         float gestureTime = Time.time - fingerStartTime;
                         if (gestureTime > maxSwipeTime && !hold) { 
-                            player.UmbrellaAction(true);
-                            hold = true;
+                            
                         }
                         break;
                     case TouchPhase.Began:
@@ -71,8 +86,6 @@ public class SwipeScript : MonoBehaviour
                         {
                             SceneManager.LoadScene("GameScene");
                         }
-                        hold = false;
-                        player.UmbrellaAction(false);
                         gestureTime = Time.time - fingerStartTime;
                         float gestureDist = (touch.position - fingerStartPos).magnitude;
 
