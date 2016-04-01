@@ -4,6 +4,9 @@ using System.Collections;
 
 public class InstructionClickScript : MonoBehaviour {
 
+	public GameObject instructionButton;
+	public GameObject startButton;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -27,6 +30,8 @@ public class InstructionClickScript : MonoBehaviour {
 	}
 
 	void HideInstructions() {
-		SceneManager.LoadScene ("MenuScene");
+		GetComponent<SpriteRenderer> ().sortingOrder = -1;
+		instructionButton.GetComponent<BoxCollider2D> ().enabled = true;
+		startButton.GetComponent<BoxCollider2D> ().enabled = true;
 	}
 }

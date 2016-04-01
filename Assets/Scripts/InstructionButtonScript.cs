@@ -5,6 +5,7 @@ using System.Collections;
 public class InstructionButtonScript : MonoBehaviour {
 
 	public GameObject instructions;
+	public GameObject startButton;
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +30,10 @@ public class InstructionButtonScript : MonoBehaviour {
 	}
 
 	void ShowInstructions() {
-		SceneManager.LoadScene ("InstructionScene");
+
+		instructions.GetComponent<SpriteRenderer> ().sortingOrder = 3;
+		GetComponent<BoxCollider2D> ().enabled = false;
+		startButton.GetComponent<BoxCollider2D> ().enabled = false;
 	}
 
 }
