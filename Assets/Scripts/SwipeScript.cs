@@ -5,7 +5,8 @@ using System;
 
 public class SwipeScript : MonoBehaviour
 {
-
+	public Scroll road;
+	public HighwayRandomizer randomizer;
 
     private float fingerStartTime = 0.0f;
     private Vector2 fingerStartPos = Vector2.zero;
@@ -19,6 +20,7 @@ public class SwipeScript : MonoBehaviour
     public PlayerScript player;
 
     private bool hold = false;
+	private bool pause = false;
 
     // Update is called once per frame
     void Update()
@@ -32,7 +34,19 @@ public class SwipeScript : MonoBehaviour
         } else if (Input.GetKeyDown(KeyCode.Space))
         {
             player.UmbrellaAction(true);
-        }
+		} else if (Input.GetKeyDown(KeyCode.P)) {
+			if (pause) {
+				Time.timeScale = 1;
+				pause = false;
+				road.ResumeSpeed ();
+				randomizer.ResumeSpeed ();
+			} else {
+				pause = true;
+				Time.timeScale = 0;
+				road.StopSpeed ();
+				randomizer.StopSpeed ();
+			}
+		}
 
         if(Input.GetKeyUp(KeyCode.Space))
         {
@@ -74,6 +88,10 @@ public class SwipeScript : MonoBehaviour
                         isSwipe = true;
                         fingerStartTime = Time.time;
                         fingerStartPos = touch.position;
+						if (player.CurrentAction == PlayerScript.Action.Lose)
+						{
+							SceneManager.LoadScene("GameScene");
+						}
                         break;
 
                     case TouchPhase.Canceled:
@@ -82,10 +100,6 @@ public class SwipeScript : MonoBehaviour
                         break;
 
                     case TouchPhase.Ended:
-                        if (player.CurrentAction == PlayerScript.Action.Lose)
-                        {
-                            SceneManager.LoadScene("GameScene");
-                        }
                         gestureTime = Time.time - fingerStartTime;
                         float gestureDist = (touch.position - fingerStartPos).magnitude;
 

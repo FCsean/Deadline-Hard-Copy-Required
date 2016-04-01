@@ -824,6 +824,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b356484f4739f40b885a469db90fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  road: {fileID: 1677077712}
+  randomizer: {fileID: 807626421}
   player: {fileID: 418894887}
 --- !u!4 &536549330
 Transform:

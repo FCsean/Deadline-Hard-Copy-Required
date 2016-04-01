@@ -27,7 +27,7 @@ public class ScoreScript : MonoBehaviour {
 			PlayerPrefs.SetFloat ("highscore", score);
 	}
 
-	public void ShowScore() {
+	public 	void ShowScore() {
 		show.ShowScore (score);
 	}
 

@@ -58,6 +58,8 @@ public class PlayerScript : MonoBehaviour
         Resources.Load("Player/jumping_0");
         Resources.Load("Player/umbrella_0");
         Resources.Load("Player/sliding_0");
+		Resources.Load ("Player/wimper_0");
+		Resources.Load ("Player/fallManhole_0");
 
 		int mute = PlayerPrefs.GetInt ("mute", 0);
 		GetComponent<AudioSource> ().mute = mute == 0 ? false : true;

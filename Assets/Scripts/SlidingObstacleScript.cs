@@ -44,7 +44,7 @@ public class SlidingObstacleScript : MonoBehaviour {
 		}
 	}
 
-	void OnBecameInVisible() {
+	void OnBecameInvisible() {
 		var audio = GetComponent<AudioSource> ();
 		if (audio != null) {
 			audio.Pause ();
