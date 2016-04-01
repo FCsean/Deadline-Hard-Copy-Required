@@ -22,6 +22,13 @@ public class SlidingObstacleScript : MonoBehaviour {
         var y = transform.position.y;
         var x = lastAdded == null ? 12.80f : lastAdded.transform.position.x + GetComponent<SpriteRenderer>().bounds.size.x + Random.value * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE;
         transform.position = new Vector3(x, y);
+		int mute = PlayerPrefs.GetInt ("mute", 0);
+		var audio = GetComponent<AudioSource> ();
+		if (audio != null) {
+			audio.mute = mute == 0 ? false : true;
+		}
+
+
 	}
 	
 	// Update is called once per frame

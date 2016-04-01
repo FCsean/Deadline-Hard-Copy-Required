@@ -30,7 +30,8 @@ public class InstructionButtonScript : MonoBehaviour {
 	}
 
 	void ShowInstructions() {
-
+		instructions.GetComponent<SpriteRenderer> ().enabled = true;
+		instructions.GetComponent<BoxCollider2D> ().enabled = true;
 		instructions.GetComponent<SpriteRenderer> ().sortingOrder = 3;
 		GetComponent<BoxCollider2D> ().enabled = false;
 		startButton.GetComponent<BoxCollider2D> ().enabled = false;

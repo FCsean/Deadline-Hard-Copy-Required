@@ -37,6 +37,8 @@ public class PlayerScript : MonoBehaviour
 	public AudioClip sliding;
 	public AudioClip jumping;
 
+	public ScoreScript scoreScript;
+
     public Action CurrentAction {
         get { return currentAction; }
     }
@@ -56,6 +58,9 @@ public class PlayerScript : MonoBehaviour
         Resources.Load("Player/jumping_0");
         Resources.Load("Player/umbrella_0");
         Resources.Load("Player/sliding_0");
+
+		int mute = PlayerPrefs.GetInt ("mute", 0);
+		GetComponent<AudioSource> ().mute = mute == 0 ? false : true;
 	}
 
 	void Awake()
@@ -250,6 +255,7 @@ public class PlayerScript : MonoBehaviour
             currentAction = Action.Lose;
             gameover.transform.position = Vector3.zero;
             gameover.GetComponent<SpriteRenderer>().enabled = true;
+			scoreScript.ShowScore ();
             if (!animator.ToLower().Contains("manhole"))
 				anim.runtimeAnimatorController = Resources.Load("Player/wimper_0") as RuntimeAnimatorController;
             // LOSE

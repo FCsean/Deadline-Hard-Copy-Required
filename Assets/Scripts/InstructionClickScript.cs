@@ -9,7 +9,8 @@ public class InstructionClickScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		GetComponent<SpriteRenderer> ().enabled = false;
+		GetComponent<BoxCollider2D> ().enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +31,8 @@ public class InstructionClickScript : MonoBehaviour {
 	}
 
 	void HideInstructions() {
+		GetComponent<SpriteRenderer> ().enabled = false;
+		GetComponent<BoxCollider2D> ().enabled = false;
 		GetComponent<SpriteRenderer> ().sortingOrder = -1;
 		instructionButton.GetComponent<BoxCollider2D> ().enabled = true;
 		startButton.GetComponent<BoxCollider2D> ().enabled = true;

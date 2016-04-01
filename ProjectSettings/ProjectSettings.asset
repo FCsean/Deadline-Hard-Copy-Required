@@ -360,11 +360,11 @@ PlayerSettings:
   scriptingDefineSymbols: {}
   metroPackageName: Deadline Hard Copy Required
   metroPackageVersion: 
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00d4076fccaad201
   metroApplicationDescription: Deadline Hard Copy Required
   wsaImages:
     65936: Assets/Resources/Icons/200.png
