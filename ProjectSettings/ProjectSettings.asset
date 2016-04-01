@@ -177,6 +177,32 @@ PlayerSettings:
       m_Icon: {fileID: 0}
       m_Width: 128
       m_Height: 128
+  - m_BuildTarget: Android
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 4dc8e52f07c98044e8294d948d501a7b, type: 3}
+      m_Width: 192
+      m_Height: 192
+    - serializedVersion: 2
+      m_Icon: {fileID: 0}
+      m_Width: 144
+      m_Height: 144
+    - serializedVersion: 2
+      m_Icon: {fileID: 0}
+      m_Width: 96
+      m_Height: 96
+    - serializedVersion: 2
+      m_Icon: {fileID: 0}
+      m_Width: 72
+      m_Height: 72
+    - serializedVersion: 2
+      m_Icon: {fileID: 0}
+      m_Width: 48
+      m_Height: 48
+    - serializedVersion: 2
+      m_Icon: {fileID: 0}
+      m_Width: 36
+      m_Height: 36
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs: []
   webPlayerTemplate: APPLICATION:Default
@@ -340,8 +366,12 @@ PlayerSettings:
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Deadline Hard Copy Required
-  wsaImages: {}
-  metroTileShortName: 
+  wsaImages:
+    65936: Assets/Resources/Icons/200.png
+    983140: Assets/Resources/Icons/310.png
+    1507568: Assets/Resources/Icons/360.png
+    2228324: Assets/Resources/Icons/310.png
+  metroTileShortName: Deadline
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0

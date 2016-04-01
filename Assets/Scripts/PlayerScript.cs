@@ -129,6 +129,7 @@ public class PlayerScript : MonoBehaviour
         switch (action) {
 		case Action.Jumping:
 				audioSource.Pause ();
+				audioSource.clip = running;
 				audioSource.PlayOneShot (jumping);
                 anim.runtimeAnimatorController = Resources.Load("Player/jumping_0") as RuntimeAnimatorController;
                 var rb = GetComponent<Rigidbody2D>();
@@ -151,6 +152,8 @@ public class PlayerScript : MonoBehaviour
                 break;
 			case Action.Umbrella:
 				audioSource.PlayOneShot (umbrella);
+				audioSource.clip = running;
+				audioSource.Play ();
 				anim.runtimeAnimatorController = Resources.Load ("Player/umbrella_0") as RuntimeAnimatorController;
 				anim.speed = 2.5f;
                 break;
