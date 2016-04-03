@@ -11,8 +11,6 @@ public class SwipeScript : MonoBehaviour
     private float fingerStartTime = 0.0f;
     private Vector2 fingerStartPos = Vector2.zero;
 
-    int lastCount = 0;
-
     private bool isSwipe = false;
     private float minSwipeDist = 1.0f;
     private float maxSwipeTime = 0.5f;
@@ -66,13 +64,12 @@ public class SwipeScript : MonoBehaviour
                 }
             } else
             {
-                if (lastCount >= 2 && hold)
+                if (hold)
                 {
                     hold = false;
                     player.UmbrellaAction(false);
                 }
             }
-            lastCount = Input.touchCount;
             foreach (Touch touch in Input.touches)
             {
                 switch (touch.phase)

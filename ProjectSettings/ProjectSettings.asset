@@ -358,8 +358,8 @@ PlayerSettings:
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
   scriptingDefineSymbols: {}
-  metroPackageName: Deadline Hard Copy Required
-  metroPackageVersion: 
+  metroPackageName: DeadlineHardCopyRequired
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
@@ -367,9 +367,26 @@ PlayerSettings:
   metroCertificateNotAfter: 00d4076fccaad201
   metroApplicationDescription: Deadline Hard Copy Required
   wsaImages:
+    65776: Assets/Resources/Icons/120.png
     65936: Assets/Resources/Icons/200.png
+    720996: Assets/Resources/Icons/150.png
     983140: Assets/Resources/Icons/310.png
+    1376356: Assets/Resources/Icons/44.png
+    1376396: Assets/Resources/Icons/62.png
+    1376496: Assets/Resources/Icons/106.png
+    1441892: Assets/Resources/Icons/71.png
+    1441932: Assets/Resources/Icons/99.png
+    1442032: Assets/Resources/Icons/170.png
+    1507428: Assets/Resources/Icons/150.png
+    1507468: Assets/Resources/Icons/210.png
     1507568: Assets/Resources/Icons/360.png
+    2031716: Assets/Resources/Icons/44.png
+    2031741: Assets/Resources/Icons/55.png
+    2031766: Assets/Resources/Icons/66.png
+    2031816: Assets/Resources/Icons/88.png
+    2032016: Assets/Resources/Icons/176.png
+    2097252: Assets/Resources/Icons/71.png
+    2162788: Assets/Resources/Icons/150.png
     2228324: Assets/Resources/Icons/310.png
   metroTileShortName: Deadline
   metroCommandLineArgsFile: 
@@ -383,7 +400,31 @@ PlayerSettings:
   metroSplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21568628,
     a: 1}
   metroSplashScreenUseBackgroundColor: 1
-  platformCapabilities: {}
+  platformCapabilities:
+    WindowsStoreApps:
+      AllJoyn: False
+      BlockedChatMessages: False
+      Bluetooth: False
+      Chat: False
+      CodeGeneration: False
+      EnterpriseAuthentication: False
+      HumanInterfaceDevice: False
+      InternetClient: False
+      InternetClientServer: False
+      Location: False
+      Microphone: False
+      MusicLibrary: False
+      Objects3D: False
+      PhoneCall: False
+      PicturesLibrary: False
+      PrivateNetworkClientServer: False
+      Proximity: False
+      RemovableStorage: False
+      SharedUserCertificates: False
+      UserAccountInformation: False
+      VideosLibrary: False
+      VoipCall: False
+      WebCam: False
   metroFTAName: 
   metroFTAFileTypes: []
   metroProtocolName: 

@@ -19,7 +19,7 @@ public class FirstScrollScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+	void FixedUpdate()
     {
         var posi = transform.position;
         transform.position = new Vector2(posi.x - road.speed, posi.y);

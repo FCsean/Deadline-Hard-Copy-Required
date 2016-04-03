@@ -17,7 +17,15 @@ public class PlayerScript : MonoBehaviour
 
 	private AudioSource audioSource;
 
-   public enum Action {
+	public RuntimeAnimatorController jumpingAnimation;
+	public RuntimeAnimatorController umbrellaAnimation;
+	public RuntimeAnimatorController slidingAnimation;
+	public RuntimeAnimatorController wimperAnimation;
+	public RuntimeAnimatorController manholeAnimation;
+	public RuntimeAnimatorController hurtAnimation;
+	public RuntimeAnimatorController runningAnimation;
+
+   	public enum Action {
         Running,
         Jumping,
         Sliding,
@@ -55,11 +63,6 @@ public class PlayerScript : MonoBehaviour
 
         SetAction(Action.Running);
         gameover.GetComponent<SpriteRenderer>().enabled = false;
-        Resources.Load("Player/jumping_0");
-        Resources.Load("Player/umbrella_0");
-        Resources.Load("Player/sliding_0");
-		Resources.Load ("Player/wimper_0");
-		Resources.Load ("Player/fallManhole_0");
 
 		int mute = PlayerPrefs.GetInt ("mute", 0);
 		GetComponent<AudioSource> ().mute = mute == 0 ? false : true;
@@ -138,7 +141,7 @@ public class PlayerScript : MonoBehaviour
 				audioSource.Pause ();
 				audioSource.clip = running;
 				audioSource.PlayOneShot (jumping);
-                anim.runtimeAnimatorController = Resources.Load("Player/jumping_0") as RuntimeAnimatorController;
+                anim.runtimeAnimatorController = jumpingAnimation;
                 var rb = GetComponent<Rigidbody2D>();
                 rb.AddForce(new Vector2(0, 1000));
                 endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
@@ -153,21 +156,21 @@ public class PlayerScript : MonoBehaviour
                     endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length - .3f;
                 } else
                 {
-                    anim.runtimeAnimatorController = Resources.Load("Player/sliding_0") as RuntimeAnimatorController;
+					anim.runtimeAnimatorController = slidingAnimation;
                     endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
                 }
                 break;
-			case Action.Umbrella:
+		case Action.Umbrella:
 				audioSource.PlayOneShot (umbrella);
 				audioSource.clip = running;
 				audioSource.Play ();
-				anim.runtimeAnimatorController = Resources.Load ("Player/umbrella_0") as RuntimeAnimatorController;
+				anim.runtimeAnimatorController = umbrellaAnimation;
 				anim.speed = 2.5f;
                 break;
-			case Action.Running:
+		case Action.Running:
 				audioSource.clip = running;
 				audioSource.Play ();
-                anim.runtimeAnimatorController = Resources.Load("Player/running_0") as RuntimeAnimatorController;
+				anim.runtimeAnimatorController = runningAnimation;
                 anim.speed = 2.5f;
                 break;
             case Action.Hurt:
@@ -201,42 +204,42 @@ public class PlayerScript : MonoBehaviour
         if (col.gameObject.name.Contains("sliding") && col.gameObject.name.Contains("jumping"))
         {
             if(currentAction != Action.Sliding) {
-                Hurt("hurt2_0");
+				Hurt(hurtAnimation);
             }
         } else if (col.gameObject.name.Contains("sliding") && currentAction != Action.Sliding)
         {
-            Hurt("hurt2_0");   
+			Hurt(hurtAnimation);   
         } else if (col.gameObject.name.Contains("jumping"))
         {
 			if (col.gameObject.name.Contains ("manhole")) 
 			{
 				life -= 3;
 				transform.position = col.gameObject.transform.position;
-				Hurt ("fallManhole_0");
+				Hurt (manholeAnimation);
 			} else 
 			{
-				Hurt ("hurt2_0");
+				Hurt (hurtAnimation);
 			}
         } else if(col.gameObject.name.Contains("umbrella") && currentAction != Action.Umbrella)
         {
-            Hurt("hurt2_0");
+			Hurt(hurtAnimation);
         }
          
     }
 
-    private void Hurt(String animator)
+	private void Hurt(RuntimeAnimatorController animator)
     {
 		if (currentAction == Action.Hurt || currentAction == Action.Lose)
 			return;
 		
         var anim = GetComponent<Animator>();
 		anim.speed = 1f;
-        anim.runtimeAnimatorController = Resources.Load("Player/"+animator) as RuntimeAnimatorController;
+		anim.runtimeAnimatorController = animator;
         endTime = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
         life--;
         GetComponent<SpriteRenderer>().sortingOrder = 99;
 
-        for(int i = lives.Count - 1; i >= 0 && animator.ToLower().Contains("manhole"); i--)
+		for(int i = lives.Count - 1; i >= 0 && animator == manholeAnimation; i--)
         {
             Destroy(lives[i]);
         }
@@ -258,8 +261,8 @@ public class PlayerScript : MonoBehaviour
             gameover.transform.position = Vector3.zero;
             gameover.GetComponent<SpriteRenderer>().enabled = true;
 			scoreScript.ShowScore ();
-            if (!animator.ToLower().Contains("manhole"))
-				anim.runtimeAnimatorController = Resources.Load("Player/wimper_0") as RuntimeAnimatorController;
+			if (animator != manholeAnimation)
+				anim.runtimeAnimatorController = wimperAnimation;
             // LOSE
         }
     }

@@ -16,7 +16,7 @@ public class ScoreScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		score += road.speed * 10;
 		GetComponent<Text> ().text = (int)score + "";
 	}
@@ -27,7 +27,7 @@ public class ScoreScript : MonoBehaviour {
 			PlayerPrefs.SetFloat ("highscore", score);
 	}
 
-	public 	void ShowScore() {
+	public void ShowScore() {
 		show.ShowScore (score);
 	}
 

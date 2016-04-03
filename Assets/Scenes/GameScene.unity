@@ -243,6 +243,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 101
   m_TargetDisplay: 0
@@ -624,6 +625,13 @@ MonoBehaviour:
   life2: {fileID: 555303956}
   life3: {fileID: 1191915557}
   gameover: {fileID: 933206102}
+  jumpingAnimation: {fileID: 9100000, guid: cf72af99e58fa3d4e88ad9a47c5f3b15, type: 2}
+  umbrellaAnimation: {fileID: 9100000, guid: d30df7b08e20b6843b75ab6c0cdc1e17, type: 2}
+  slidingAnimation: {fileID: 9100000, guid: 9ecfc8ced39963949ad42717a060d30a, type: 2}
+  wimperAnimation: {fileID: 9100000, guid: fba5968de8bffb5428fa9332664547eb, type: 2}
+  manholeAnimation: {fileID: 9100000, guid: 93247739a0f76c748bc17ef79bfe3fad, type: 2}
+  hurtAnimation: {fileID: 9100000, guid: a79779d8dadd26448b5e63f69e4ffad5, type: 2}
+  runningAnimation: {fileID: 9100000, guid: bc4356cb1fc6b0e45b235bc01d6fb0ec, type: 2}
   running: {fileID: 8300000, guid: efca5e053eedab64fa8a5ced539a2d20, type: 3}
   umbrella: {fileID: 8300000, guid: acf9db1cfb3ab7f42a9adfe9f641af42, type: 3}
   hurt: {fileID: 8300000, guid: cd95c406be2d4184e984e1919e6872cf, type: 3}
