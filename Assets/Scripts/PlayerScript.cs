@@ -25,6 +25,9 @@ public class PlayerScript : MonoBehaviour
 	public RuntimeAnimatorController hurtAnimation;
 	public RuntimeAnimatorController runningAnimation;
 
+	public GameObject exitButton;
+	public GameObject restartButton;
+
    	public enum Action {
         Running,
         Jumping,
@@ -32,6 +35,7 @@ public class PlayerScript : MonoBehaviour
         Umbrella,
         Hurt,
         Lose,
+		None,
     };
 
     private float endTime;
@@ -46,6 +50,8 @@ public class PlayerScript : MonoBehaviour
 	public AudioClip jumping;
 
 	public ScoreScript scoreScript;
+
+	public Action queuedAction = Action.None;
 
     public Action CurrentAction {
         get { return currentAction; }
@@ -99,10 +105,16 @@ public class PlayerScript : MonoBehaviour
                 road.ResumeSpeed();
                 randomizer.ResumeSpeed();
                 GetComponent<SpriteRenderer>().sortingOrder = 0;
-                goto case Action.Jumping;
-            case Action.Jumping:
+                goto case Action.Sliding;
+			case Action.Jumping:
+				if (queuedAction != Action.None) {
+					SetAction (queuedAction);
+					queuedAction = Action.None;
+					break;
+				}
+				goto case Action.Sliding;
             case Action.Sliding:
-                    SetAction(Action.Running);
+                SetAction(Action.Running);
                 break;
         }
     }
@@ -112,27 +124,38 @@ public class PlayerScript : MonoBehaviour
         if (currentAction == Action.Hurt)
             return;
 
-        if (use && (currentAction == Action.Running || currentAction == Action.Sliding))
+		if (use && (currentAction == Action.Running || currentAction == Action.Sliding || currentAction == Action.Jumping))
         {
             SetAction(Action.Umbrella);
-        }else if(currentAction == Action.Umbrella)
+		}else if(currentAction == Action.Umbrella || queuedAction == Action.Umbrella)
         {
             SetAction(Action.Running);
         }
         
     }
 
-    private void SetAction(Action action)
+	private void QueueAction(Action action) {
+		if (action == Action.Running) {
+			queuedAction = Action.None;
+			return;
+		}
+		queuedAction = action;
+	}
+
+	private void SetAction(Action action, bool force = false)
     {
-        if (currentAction == Action.Lose)
-            return;
+		if (!force) {
+			if (currentAction == Action.Lose)
+				return;
         
-        if (currentAction == Action.Jumping && action != Action.Running && action != Action.Hurt)
-            return;
+			if (currentAction == Action.Jumping && action != Action.Running && action != Action.Hurt) {
+				QueueAction (action);
+				return;
+			}
 
-        if (currentAction == Action.Hurt && action != Action.Running)
-            return;
-
+			if (currentAction == Action.Hurt && action != Action.Running)
+				return;
+		}
         var anim = GetComponent<Animator>();
         anim.speed = 1f;
 
@@ -187,6 +210,11 @@ public class PlayerScript : MonoBehaviour
     {
 		if (col.gameObject.name.ToLower().Contains("road") && currentAction != Action.Hurt && currentAction != Action.Running)
         {
+			if (queuedAction != Action.None) {
+				SetAction (queuedAction, true);
+				queuedAction = Action.None;
+				return;
+			}
             SetAction(Action.Running);  
         }
     }
@@ -260,6 +288,11 @@ public class PlayerScript : MonoBehaviour
             currentAction = Action.Lose;
             gameover.transform.position = Vector3.zero;
             gameover.GetComponent<SpriteRenderer>().enabled = true;
+			restartButton.GetComponent<SpriteRenderer> ().enabled = true;
+			restartButton.GetComponent<BoxCollider2D> ().enabled = true;
+			exitButton.GetComponent<SpriteRenderer> ().enabled = true;
+			exitButton.GetComponent<BoxCollider2D> ().enabled = true;
+
 			scoreScript.ShowScore ();
 			if (animator != manholeAnimation)
 				anim.runtimeAnimatorController = wimperAnimation;

@@ -54,22 +54,22 @@ public class SwipeScript : MonoBehaviour
                 SceneManager.LoadScene("GameScene");
             }
         }
+		if (Input.touchCount >= 2)
+		{
+			if (!hold) { 
+				player.UmbrellaAction(true);
+				hold = true;
+			}
+		} else
+		{
+			if (hold)
+			{
+				hold = false;
+				player.UmbrellaAction(false);
+			}
+		}
         if (Input.touchCount > 0)
         {
-            if (Input.touchCount >= 2)
-            {
-                if (!hold) { 
-                    player.UmbrellaAction(true);
-                    hold = true;
-                }
-            } else
-            {
-                if (hold)
-                {
-                    hold = false;
-                    player.UmbrellaAction(false);
-                }
-            }
             foreach (Touch touch in Input.touches)
             {
                 switch (touch.phase)
@@ -85,10 +85,6 @@ public class SwipeScript : MonoBehaviour
                         isSwipe = true;
                         fingerStartTime = Time.time;
                         fingerStartPos = touch.position;
-						if (player.CurrentAction == PlayerScript.Action.Lose)
-						{
-							SceneManager.LoadScene("GameScene");
-						}
                         break;
 
                     case TouchPhase.Canceled:
